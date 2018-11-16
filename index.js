@@ -1,9 +1,9 @@
 require('dotenv').config();
-const { promisify } = require("util");
+const { promisify } = require('util');
 
 const { NRE_TOKEN } = process.env;
 
-const Rail = require("national-rail-darwin");
+const Rail = require('national-rail-darwin');
 const rail = new Rail(NRE_TOKEN);
 
 const getDepBoard = promisify(rail.getDepartureBoard.bind(rail));
@@ -19,35 +19,38 @@ const getDepBoard = promisify(rail.getDepartureBoard.bind(rail));
 // from ("hh:mm") returns "mm"
 const getMinutes = time => (/(\d\d)$/).exec(time)[0];
 
-
 const pickServices = (arrayOfPastTheHour, departuresBoardData) => {
-    const desiredServices = departuresBoardData.filter(
-        service => arrayOfPastTheHour.includes(getMinutes(service.std))
-    );
-    return desiredServices;
-    
-}
-
+  const desiredServices = departuresBoardData.filter(
+    service => arrayOfPastTheHour.includes(getMinutes(service.std))
+  );
+  return desiredServices;
+};
 
 const journey = {
-    departureCode: "KGX",
-    // destinationCode: "CBG",
-    times: ["12", "42"]
-}
+  departureCode: 'KGX',
+  destinationCode: 'CBG',
+  times: ['12', '42']
+};
 
 const upcomingServices = journeyObject => {
-    const depCode = journeyObject.departureCode;
-    
-    const options = {}
-    if (journeyObject.hasOwnProperty("destinationCode")){
-        options.destination = journeyObject.destinationCode;
-    }
+  const depCode = journeyObject.departureCode;
 
-    console.log(options);
-    getDepBoard(depCode, options)
-    .then(data => pickServices(journeyObject.times, data.trainServices))
+  const options = {};
+  if (journeyObject.hasOwnProperty('destinationCode')) {
+    options.destination = journeyObject.destinationCode;
+  }
+
+  console.log(options);
+  getDepBoard(depCode, options)
+    .then(function (data) {
+      if (journeyObject.hasOwnProperty('times')) {
+        return pickServices(journeyObject.times, data.trainServices);
+      }
+      return data;
+    }
+    )
     .then(data => console.log(data))
     .catch(err => console.log(err));
-}
+};
 
 upcomingServices(journey);
