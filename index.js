@@ -27,10 +27,21 @@ const pickServices = (arrayOfPastTheHour, departuresBoardData) => {
 };
 
 const journey = {
-  departureCode: 'KGX',
-  destinationCode: 'CBG',
-  times: ['12', '42']
+  departureCode: 'LST',
+  destinationCode: 'WBC',
+//   times: ['12', '42']
 };
+
+const travelOptions = [
+    {
+        departureCode: 'LST',
+        destinationCode: 'WBC',
+      },
+{
+    departureCode: 'KGX',
+    destinationCode: 'WBC'
+}
+]
 
 const upcomingServices = journeyObject => {
   const depCode = journeyObject.departureCode;
@@ -40,7 +51,6 @@ const upcomingServices = journeyObject => {
     options.destination = journeyObject.destinationCode;
   }
 
-  console.log(options);
   getDepBoard(depCode, options)
     .then(function (data) {
       if (journeyObject.hasOwnProperty('times')) {
@@ -53,4 +63,10 @@ const upcomingServices = journeyObject => {
     .catch(err => console.log(err));
 };
 
-upcomingServices(journey);
+const potentialJourneys = arrayOfObjects => {
+    arrayOfObjects.forEach(journey => upcomingServices(journey));
+}
+
+// upcomingServices(journey);
+
+potentialJourneys(travelOptions);
