@@ -1,0 +1,23 @@
+{
+  "name": "train-checker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AniaMakes/train-checker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AniaMakes/train-checker/issues"
+  },
+  "homepage": "https://github.com/AniaMakes/train-checker#readme",
+  "dependencies": {
+    "dotenv": "^6.1.0",
+    "national-rail-darwin": "^1.0.7"
+  }
+}
